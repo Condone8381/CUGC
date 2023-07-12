@@ -129,3 +129,15 @@ resource "azurerm_virtual_machine_extension" "dc2-vm-extension" {
     environment = var.environment
   }
 }
+
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "terraform_resource_group" {
+  virtual_machine_id          = azurerm_windows_virtual_machine.dc2-vm.id
+  location                    = azurerm_resource_group.terraform-resource-group.location
+  enabled                     = true
+  daily_recurrence_time       = "1800"
+  timezone                    = "Eastern Standard Time"
+  notification_settings {
+    enabled         = false
+   
+  }
+}
