@@ -29,3 +29,7 @@ output "availability_set_id" {
 output "alb_public_ip" {
   value = azurerm_public_ip.terraform-load-balancer-public-ip.ip_address
 }
+
+output "jumpbox_public_ip"{
+  value = azurerm_public_ip.jumpbox_public_ip.ip_address
+}
