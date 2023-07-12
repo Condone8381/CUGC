@@ -76,7 +76,6 @@ resource "azurerm_windows_virtual_machine" "main" {
   resource_group_name   = azurerm_resource_group.terraform-resource-group.name
   network_interface_ids = [
     azurerm_network_interface.terraform-jumpbox-management-interface.id,
-    azurerm_network_interface.terraform-jumpbox-client-interface.id,
     azurerm_network_interface.terraform-jumpbox-server-interface.id,
   ]
   size                  = "Standard_DS2_v2"
