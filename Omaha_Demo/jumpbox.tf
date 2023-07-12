@@ -114,7 +114,7 @@ resource "azurerm_virtual_machine_extension" "web_server_install" {
     }
   SETTINGS
 }
-resource "azurerm_dev_test_global_vm_shutdown_schedule" "terraform_resource_group" {
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "jumpbox-vm" {
   virtual_machine_id          = azurerm_windows_virtual_machine.main.id
   location                    = azurerm_resource_group.terraform-resource-group.location
   enabled                     = true
