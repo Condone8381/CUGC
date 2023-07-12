@@ -79,8 +79,7 @@ resource "azurerm_windows_virtual_machine" "dc1-vm" {
   size           = var.dc1_vm_size
   admin_username = var.ad_admin_username
   admin_password = var.ad_admin_password
-  license_type   = var.dc1_license_type
-
+ 
   network_interface_ids = [azurerm_network_interface.dc1-nic.id]
 
   os_disk {
