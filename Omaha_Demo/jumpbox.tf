@@ -38,20 +38,6 @@ resource "azurerm_network_interface" "terraform-jumpbox-management-interface" {
   depends_on = [azurerm_subnet_network_security_group_association.management-subnet-association]
 }
 
-resource "azurerm_network_interface" "terraform-jumpbox-client-interface" {
-  name                = "terraform-jumpbox-client-interface"
-  location            = var.location
-  resource_group_name = azurerm_resource_group.terraform-resource-group.name
-
-  ip_configuration {
-    name                          = "client"
-    subnet_id                     = azurerm_subnet.terraform-client-subnet.id
-    private_ip_address_allocation = "Dynamic"
-  }
-
-  depends_on = [azurerm_subnet_network_security_group_association.client-subnet-association]
-}
-
 resource "azurerm_network_interface" "terraform-jumpbox-server-interface" {
   name                = "terraform-jumpbox-server-interface"
   location            = var.location
