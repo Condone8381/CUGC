@@ -130,7 +130,7 @@ resource "azurerm_virtual_machine_extension" "dc2-vm-extension" {
   }
 }
 
-resource "azurerm_dev_test_global_vm_shutdown_schedule" "terraform_resource_group" {
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "DC2-VM" {
   virtual_machine_id          = azurerm_windows_virtual_machine.dc2-vm.id
   location                    = azurerm_resource_group.terraform-resource-group.location
   enabled                     = true
