@@ -114,3 +114,15 @@ resource "azurerm_virtual_machine_extension" "web_server_install" {
     }
   SETTINGS
 }
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "terraform_resource_group" {
+  name                        = "jumpbox-shutdown"
+  virtual_machine_id          = azurerm_windows_virtual_machine.main.id
+  location                    = azurerm_resource_group.terraform_resource_group.location
+  enabled                     = true
+  daily_recurrence_time       = "1800"
+  timezone                    = "Eastern Standard Time"
+  notification_settings {
+    enabled         = false
+   
+  }
+}
