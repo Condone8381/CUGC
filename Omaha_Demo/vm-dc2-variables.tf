@@ -36,4 +36,5 @@ variable "ad_dc2_name" {
 variable "ad_dc2_ip_address" {
   type        = string
   description = "This variable defines the private ip address of AD Domain Controller 2"
+  default = "10.0.1.252"
 }
