@@ -53,8 +53,6 @@ resource "azurerm_network_security_group" "dc2-vm-nsg" {
 
 # Create a NIC for DC2
 resource "azurerm_network_interface" "dc2-nic" {
-  depends_on=[azurerm_public_ip.dc2-eip]
-
   name                    = "${var.ad_dc2_name}-nic"
   location                = azurerm_resource_group.terraform-resource-group.location
   resource_group_name     = azurerm_resource_group.terraform-resource-group.name
