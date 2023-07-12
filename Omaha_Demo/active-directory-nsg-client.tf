@@ -27,8 +27,8 @@ resource "azurerm_network_security_rule" "udp_53_client_inbound" {
 
   network_security_group_name = azurerm_network_security_group.active-directory-client-nsg.name
   resource_group_name         = azurerm_resource_group.terraform-resource-group.name
-  name                        = "AD 53 DNS UDP - DC${count.index+1} Inbound"
-  description                 = "AD 53 DNS UDP - DC${count.index+1} Inbound"
+  name                        = "AD_53_DNS_UDP-DC${count.index+1}_Inbound"
+  description                 = "AD_53_DNS_UDP-DC${count.index+1}_Inbound"
   priority                    = (150 + count.index)
   direction                   = "Inbound"
   access                      = "Allow"
@@ -47,8 +47,8 @@ resource "azurerm_network_security_rule" "tcp_88_client_inbound" {
 
   network_security_group_name = azurerm_network_security_group.active-directory-client-nsg.name
   resource_group_name         = azurerm_resource_group.terraform-resource-group.name
-  name                        = "AD 88 Kerberos TCP - DC${count.index+1} Inbound"
-  description                 = "AD 88 Kerberos TCP - DC${count.index+1} Inbound"
+  name                        = "AD_88_Kerberos_TCP-DC${count.index+1}_Inbound"
+  description                 = "AD_88_Kerberos_TCP-DC${count.index+1}_Inbound"
   priority                    = (160 + count.index)
   direction                   = "Inbound"
   access                      = "Allow"
@@ -59,7 +59,7 @@ resource "azurerm_network_security_rule" "tcp_88_client_inbound" {
   destination_address_prefix  = "*"
 }
 
-# Port 135 RPC TCP
+# Port 135 RPC_TCP
 resource "azurerm_network_security_rule" "tcp_135_client_inbound" {
   depends_on = [azurerm_resource_group.terraform-resource-group]
 
@@ -67,8 +67,8 @@ resource "azurerm_network_security_rule" "tcp_135_client_inbound" {
 
   network_security_group_name = azurerm_network_security_group.active-directory-client-nsg.name
   resource_group_name         = azurerm_resource_group.terraform-resource-group.name
-  name                        = "AD 135 RPC TCP - DC${count.index+1} Inbound"
-  description                 = "AD 135 RPC TCP - DC${count.index+1} Inbound"
+  name                        = "AD_135_RPC_TCP-DC${count.index+1}_Inbound"
+  description                 = "AD_135_RPC_TCP-DC${count.index+1}_Inbound"
   priority                    = (170 + count.index)
   direction                   = "Inbound"
   access                      = "Allow"
@@ -87,8 +87,8 @@ resource "azurerm_network_security_rule" "tcp_389_client_inbound" {
 
   network_security_group_name = azurerm_network_security_group.active-directory-client-nsg.name
   resource_group_name         = azurerm_resource_group.terraform-resource-group.name
-  name                        = "AD 389 LDAP TCP - DC${count.index+1} Inbound"
-  description                 = "AD 389 LDAP TCP - DC${count.index+1} Inbound"
+  name                        = "AD_389_LDAP_TCP-DC${count.index+1}_Inbound"
+  description                 = "AD_389_LDAP_TCP-DC${count.index+1}_Inbound"
   priority                    = (180 + count.index)
   direction                   = "Inbound"
   access                      = "Allow"
@@ -107,8 +107,8 @@ resource "azurerm_network_security_rule" "tcp_445_client_inbound" {
 
   network_security_group_name = azurerm_network_security_group.active-directory-client-nsg.name
   resource_group_name         = azurerm_resource_group.terraform-resource-group.name
-  name                        = "AD 445 SMB TCP - DC${count.index+1} Inbound"
-  description                 = "AD 445 SMB TCP - DC${count.index+1} Inbound"
+  name                        = "AD_445_SMB_TCP-DC${count.index+1}_Inbound"
+  description                 = "AD_445_SMB_TCP-DC${count.index+1}_Inbound"
   priority                    = (190 + count.index)
   direction                   = "Inbound"
   access                      = "Allow"
@@ -127,8 +127,8 @@ resource "azurerm_network_security_rule" "tcp_49152-65535_client_inbound" {
 
   network_security_group_name = azurerm_network_security_group.active-directory-client-nsg.name
   resource_group_name         = azurerm_resource_group.terraform-resource-group.name
-  name                        = "AD 49152-65535 TCP - DC${count.index+1} Inbound"
-  description                 = "AD 49152-65535 TCP - DC${count.index+1} Inbound"
+  name                        = "AD_49152-65535_TCP-DC${count.index+1}_Inbound"
+  description                 = "AD_49152-65535_TCP-DC${count.index+1}_Inbound"
   priority                    = (200 + count.index)
   direction                   = "Inbound"
   access                      = "Allow"
@@ -147,8 +147,8 @@ resource "azurerm_network_security_rule" "udp_49152-65535_client_inbound" {
 
   network_security_group_name = azurerm_network_security_group.active-directory-client-nsg.name
   resource_group_name         = azurerm_resource_group.terraform-resource-group.name
-  name                        = "AD 49152-65535 UDP - DC${count.index+1} Inbound"
-  description                 = "AD 49152-65535 UDP - DC${count.index+1} Inbound"
+  name                        = "AD_49152-65535_UDP-DC${count.index+1}_Inbound"
+  description                 = "AD_49152-65535_UDP-DC${count.index+1}_Inbound"
   priority                    = (210 + count.index)
   direction                   = "Inbound"
   access                      = "Allow"
@@ -167,8 +167,8 @@ resource "azurerm_network_security_rule" "icmp_client_inbound" {
 
   network_security_group_name = azurerm_network_security_group.active-directory-client-nsg.name
   resource_group_name         = azurerm_resource_group.terraform-resource-group.name
-  name                        = "AD Ping to DC${count.index+1} Inbound"
-  description                 = "AD Ping to DC${count.index+1} Inbound"
+  name                        = "AD_PingtoDC${count.index+1}_Inbound"
+  description                 = "AD_PingtoDC${count.index+1}_Inbound"
   priority                    = (220 + count.index)
   direction                   = "Inbound"
   access                      = "Allow"
@@ -191,8 +191,8 @@ resource "azurerm_network_security_rule" "udp_53_client_outbound" {
 
   network_security_group_name = azurerm_network_security_group.active-directory-client-nsg.name
   resource_group_name         = azurerm_resource_group.terraform-resource-group.name
-  name                        = "AD 53 DNS UDP - DC${count.index+1} Outbound"
-  description                 = "AD 53 DNS UDP - DC${count.index+1} Outbound"
+  name                        = "AD_53_DNS_UDP-DC${count.index+1} Outbound"
+  description                 = "AD_53_DNS_UDP-DC${count.index+1} Outbound"
   priority                    = (150 + count.index)
   direction                   = "Outbound"
   access                      = "Allow"
@@ -211,8 +211,8 @@ resource "azurerm_network_security_rule" "tcp_88_client_outbound" {
 
   network_security_group_name = azurerm_network_security_group.active-directory-client-nsg.name
   resource_group_name         = azurerm_resource_group.terraform-resource-group.name
-  name                        = "AD 88 Kerberos TCP - DC${count.index+1} Outbound"
-  description                 = "AD 88 Kerberos TCP - DC${count.index+1} Outbound"
+  name                        = "AD_88_Kerberos_TCP-DC${count.index+1} Outbound"
+  description                 = "AD_88_Kerberos_TCP-DC${count.index+1} Outbound"
   priority                    = (160 + count.index)
   direction                   = "Outbound"
   access                      = "Allow"
@@ -231,8 +231,8 @@ resource "azurerm_network_security_rule" "tcp_135_client_outbound" {
 
   network_security_group_name = azurerm_network_security_group.active-directory-client-nsg.name
   resource_group_name         = azurerm_resource_group.terraform-resource-group.name
-  name                        = "AD 135 RPC TCP - DC${count.index+1} Outbound"
-  description                 = "AD 135 RPC TCP - DC${count.index+1} Outbound"
+  name                        = "AD_135_RPC_TCP-DC${count.index+1} Outbound"
+  description                 = "AD_135_RPC_TCP-DC${count.index+1} Outbound"
   priority                    = (170 + count.index)
   direction                   = "Outbound"
   access                      = "Allow"
@@ -251,8 +251,8 @@ resource "azurerm_network_security_rule" "tcp_389_client_outbound" {
 
   network_security_group_name = azurerm_network_security_group.active-directory-client-nsg.name
   resource_group_name         = azurerm_resource_group.terraform-resource-group.name
-  name                        = "AD 389 LDAP TCP - DC${count.index+1} Outbound"
-  description                 = "AD 389 LDAP TCP - DC${count.index+1} Outbound"
+  name                        = "AD_389_LDAP_TCP-DC${count.index+1} Outbound"
+  description                 = "AD_389_LDAP_TCP-DC${count.index+1} Outbound"
   priority                    = (180 + count.index)
   direction                   = "Outbound"
   access                      = "Allow"
@@ -271,8 +271,8 @@ resource "azurerm_network_security_rule" "tcp_445_client_outbound" {
 
   network_security_group_name = azurerm_network_security_group.active-directory-client-nsg.name
   resource_group_name         = azurerm_resource_group.terraform-resource-group.name
-  name                        = "AD 445 SMB TCP - DC${count.index+1} Outbound"
-  description                 = "AD 445 SMB TCP - DC${count.index+1} Outbound"
+  name                        = "AD_445_SMB_TCP-DC${count.index+1} Outbound"
+  description                 = "AD_445_SMB_TCP-DC${count.index+1} Outbound"
   priority                    = (190 + count.index)
   direction                   = "Outbound"
   access                      = "Allow"
@@ -291,8 +291,8 @@ resource "azurerm_network_security_rule" "tcp_49152-65535_client_outbound" {
 
   network_security_group_name = azurerm_network_security_group.active-directory-client-nsg.name
   resource_group_name         = azurerm_resource_group.terraform-resource-group.name
-  name                        = "AD 49152-65535 TCP - DC${count.index+1} Outbound"
-  description                 = "AD 49152-65535 TCP - DC${count.index+1} Outbound"
+  name                        = "AD_49152-65535_TCP-DC${count.index+1} Outbound"
+  description                 = "AD_49152-65535_TCP-DC${count.index+1} Outbound"
   priority                    = (200 + count.index)
   direction                   = "Outbound"
   access                      = "Allow"
@@ -311,8 +311,8 @@ resource "azurerm_network_security_rule" "udp_49152-65535_client_outbound" {
 
   network_security_group_name = azurerm_network_security_group.active-directory-client-nsg.name
   resource_group_name         = azurerm_resource_group.terraform-resource-group.name
-  name                        = "AD 49152-65535 UDP - DC${count.index+1} Outbound"
-  description                 = "AD 49152-65535 UDP - DC${count.index+1} Outbound"
+  name                        = "AD_49152-65535_UDP-DC${count.index+1} Outbound"
+  description                 = "AD_49152-65535_UDP-DC${count.index+1} Outbound"
   priority                    = (210 + count.index)
   direction                   = "Outbound"
   access                      = "Allow"
@@ -331,8 +331,8 @@ resource "azurerm_network_security_rule" "icmp_client_outbound" {
 
   network_security_group_name = azurerm_network_security_group.active-directory-client-nsg.name
   resource_group_name         = azurerm_resource_group.terraform-resource-group.name
-  name                        = "AD Ping to DC${count.index+1} Outbound"
-  description                 = "AD Ping to DC${count.index+1} Outbound"
+  name                        = "AD_PingtoDC${count.index+1} Outbound"
+  description                 = "AD_PingtoDC${count.index+1} Outbound"
   priority                    = (220 + count.index)
   direction                   = "Outbound"
   access                      = "Allow"
