@@ -38,20 +38,19 @@ resource "azurerm_network_interface" "terraform-jumpbox-management-interface" {
   depends_on = [azurerm_subnet_network_security_group_association.management-subnet-association]
 }
 
-resource "azurerm_network_interface" "terraform-jumpbox-client-interface" {
-  name                = "terraform-jumpbox-client-interface"
+resource "azurerm_network_interface" "terraform-jumpbox-server-interface" {
+  name                = "terraform-jumpbox-server-interface"
   location            = var.location
   resource_group_name = azurerm_resource_group.terraform-resource-group.name
 
   ip_configuration {
-    name                          = "client"
+    name                          = "server"
     subnet_id                     = azurerm_subnet.terraform-client-subnet.id
     private_ip_address_allocation = "Dynamic"
   }
 
-  depends_on = [azurerm_subnet_network_security_group_association.client-subnet-association]
+  depends_on = [azurerm_subnet_network_security_group_association.server-subnet-association]
 }
-
 # Connect the security group to the network interface
 # resource "azurerm_subnet_network_security_group_association" "management-subnet-association" {
 #   subnet_id                 = azurerm_subnet.terraform-management-subnet.id
@@ -70,14 +69,14 @@ resource "azurerm_storage_account" "my_jumpbox_storage_account" {
 
 # Create virtual machine
 resource "azurerm_windows_virtual_machine" "main" {
-  name                  = "${var.prefix}-vm"
+  name                  = "jumpbox"
   admin_username        = "azureuser"
   admin_password        = "CUGCDemo123!"
   location              = var.location
   resource_group_name   = azurerm_resource_group.terraform-resource-group.name
   network_interface_ids = [
     azurerm_network_interface.terraform-jumpbox-management-interface.id,
-    azurerm_network_interface.terraform-jumpbox-client-interface.id,
+    azurerm_network_interface.terraform-jumpbox-server-interface.id,
   ]
   size                  = "Standard_DS2_v2"
 
@@ -115,17 +114,14 @@ resource "azurerm_virtual_machine_extension" "web_server_install" {
     }
   SETTINGS
 }
-
-resource "random_password" "password" {
-  length      = 20
-  min_lower   = 1
-  min_upper   = 1
-  min_numeric = 1
-  min_special = 1
-  special     = true
-}
-
-resource "random_pet" "prefix" {
-  prefix = var.prefix
-  length = 1
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "terraform_resource_group" {
+  virtual_machine_id          = azurerm_windows_virtual_machine.main.id
+  location                    = azurerm_resource_group.terraform-resource-group.location
+  enabled                     = true
+  daily_recurrence_time       = "1800"
+  timezone                    = "Eastern Standard Time"
+  notification_settings {
+    enabled         = false
+   
+  }
 }
