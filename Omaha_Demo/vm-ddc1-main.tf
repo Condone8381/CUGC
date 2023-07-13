@@ -45,7 +45,7 @@ resource "azurerm_windows_virtual_machine" "ddc1" {
 
 # DDC1 virtual machine extension - Install DDC Prerequisites
 resource "azurerm_virtual_machine_extension" "ddc1-vm-extension" {
-  depends_on=[azurerm_windows_virtual_machine.ddc1-vm]
+  depends_on=[azurerm_windows_virtual_machine.ddc1]
 
   name                 = "ddc1-vm-active-directory"
   virtual_machine_id   = azurerm_windows_virtual_machine.ddc1.id
