@@ -453,3 +453,39 @@ resource "azurerm_lb" "tf_lb" {
     public_ip_address_id = azurerm_public_ip.terraform-load-balancer-public-ip.id
   }
 }
+
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "jumpbox-VM" {
+  virtual_machine_id          = azurerm_linux_virtual_machine.terraform-ubuntu-machine.id
+  location                    = azurerm_resource_group.terraform-resource-group.location
+  enabled                     = true
+  daily_recurrence_time       = "1800"
+  timezone                    = "Eastern Standard Time"
+  notification_settings {
+    enabled         = false
+   
+  }
+}
+
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "ADC1-VM" {
+  virtual_machine_id          = azurerm_virtual_machine.terraform-primary-adc-machine.id
+  location                    = azurerm_resource_group.terraform-resource-group.location
+  enabled                     = true
+  daily_recurrence_time       = "1800"
+  timezone                    = "Eastern Standard Time"
+  notification_settings {
+    enabled         = false
+   
+  }
+}
+
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "ADC2-VM" {
+  virtual_machine_id          = azurerm_virtual_machine.terraform-secondary-adc-machine.id
+  location                    = azurerm_resource_group.terraform-resource-group.location
+  enabled                     = true
+  daily_recurrence_time       = "1800"
+  timezone                    = "Eastern Standard Time"
+  notification_settings {
+    enabled         = false
+   
+  }
+}
