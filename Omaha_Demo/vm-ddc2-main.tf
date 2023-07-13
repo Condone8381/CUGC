@@ -64,7 +64,7 @@ resource "azurerm_virtual_machine_extension" "ddc2-vm-extension" {
     environment = var.environment
   }
 }
-resource "azurerm_dev_test_global_vm_shutdown_schedule" "ddc2-shutdown" {
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "ddc02-shutdown" {
   virtual_machine_id          = azurerm_windows_virtual_machine.ddc2.id
   location                    = azurerm_resource_group.terraform-resource-group.location
   enabled                     = true
