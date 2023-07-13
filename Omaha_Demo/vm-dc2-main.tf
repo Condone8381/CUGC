@@ -62,7 +62,7 @@ resource "azurerm_network_interface" "dc2-nic" {
   ip_configuration {
     name                          = "${var.ad_dc2_name}-ip-config"
     subnet_id                     = azurerm_subnet.terraform-server-subnet.id
-    private_ip_address_allocation = "Dynamic"
+    private_ip_address_allocation = "Static"
     private_ip_address            = var.ad_dc2_ip_address
   }
 

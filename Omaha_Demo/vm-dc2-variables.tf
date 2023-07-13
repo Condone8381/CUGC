@@ -7,7 +7,7 @@
 variable "dc2_vm_size" {
   type        = string
   description = "Size (SKU) of the virtual machine to create"
-  default     = "Standard_DS2_v2"
+  default     = "Standard_D2s_v3"
 }
 
 # Azure virtual machine storage settings #
@@ -36,5 +36,5 @@ variable "ad_dc2_name" {
 variable "ad_dc2_ip_address" {
   type        = string
   description = "This variable defines the private ip address of AD Domain Controller 2"
-  default = "10.0.1.252"
+  default = "10.0.1.7"
 }

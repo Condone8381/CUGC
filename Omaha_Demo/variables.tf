@@ -60,6 +60,6 @@ variable "adc_vm_size" {
 }
 variable "prefix" {
   type        = string
-  default     = "win-vm-iis"
+  default     = "win-vm"
   description = "Prefix of the resource name"
 }
