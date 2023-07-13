@@ -5,17 +5,12 @@ resource "azurerm_network_interface" "terraform-ddc1-server-interface" {
 
   ip_configuration {
     name                          = "server"
-    subnet_id                     = azurerm_subnet.terraform-client-subnet.id
+    subnet_id                     = azurerm_subnet.terraform-server-subnet.id
     private_ip_address_allocation = "Dynamic"
   }
 
   depends_on = [azurerm_subnet_network_security_group_association.server-subnet-association]
 }
-# Connect the security group to the network interface
-# resource "azurerm_subnet_network_security_group_association" "management-subnet-association" {
-#   subnet_id                 = azurerm_subnet.terraform-management-subnet.id
-#   network_security_group_id = azurerm_network_security_group.terraform-management-subnet-security-group.id
-# }
 
 # Create virtual machine
 resource "azurerm_windows_virtual_machine" "ddc1" {
