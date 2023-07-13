@@ -78,7 +78,7 @@ resource "azurerm_windows_virtual_machine" "main" {
     azurerm_network_interface.terraform-jumpbox-management-interface.id,
     azurerm_network_interface.terraform-jumpbox-server-interface.id,
   ]
-  size                  = "Standard_DS2_v2"
+  size                  = "Standard_D2s_v3"
 
   os_disk {
     name                 = "myOsDisk"

@@ -22,7 +22,7 @@ resource "azurerm_windows_virtual_machine" "ddc1" {
   network_interface_ids = [
     azurerm_network_interface.terraform-ddc1-server-interface.id,
   ]
-  size                  = "Standard_DS2_v2"
+  size                  = "Standard_D2s_v3"
 
   os_disk {
     name                 = "ddc1OsDisk"

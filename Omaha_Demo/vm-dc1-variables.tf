@@ -7,7 +7,7 @@
 variable "dc1_vm_size" {
   type        = string
   description = "Size (SKU) of the virtual machine to create"
-  default     = "Standard_DS2_v2"
+  default     = "Standard_D2s_v3"
 }
 
 # Azure virtual machine storage settings #
