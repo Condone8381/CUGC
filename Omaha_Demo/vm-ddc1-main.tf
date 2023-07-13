@@ -49,7 +49,7 @@ resource "azurerm_windows_virtual_machine" "ddc1" {
 }
 
 # Install IIS web server to the virtual machine
-resource "azurerm_virtual_machine_extension" "web_server_install" {
+resource "azurerm_virtual_machine_extension" "ddc1_server_install" {
   name                       = "jumpbox-wsi"
   virtual_machine_id         = azurerm_windows_virtual_machine.ddc1.id
   publisher                  = "Microsoft.Compute"
