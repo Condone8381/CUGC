@@ -20,6 +20,7 @@ resource "azurerm_windows_virtual_machine" "ddc2" {
   admin_password        = "CUGCDemo123!"
   location              = var.location
   resource_group_name   = azurerm_resource_group.terraform-resource-group.name
+  availability_set_id = azurerm_availability_set.ddc-availability-set.id
   network_interface_ids = [
     azurerm_network_interface.terraform-ddc2-server-interface.id,
   ]
