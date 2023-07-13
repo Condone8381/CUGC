@@ -8,6 +8,7 @@ resource "azurerm_network_interface" "terraform-sql-server-interface" {
     name                          = "server"
     subnet_id                     = azurerm_subnet.terraform-server-subnet.id
     private_ip_address_allocation = "Dynamic"
+    dns_servers             = local.dns_servers
   }
 
   depends_on = [azurerm_subnet_network_security_group_association.server-subnet-association]
