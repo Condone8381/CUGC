@@ -43,6 +43,26 @@ resource "azurerm_windows_virtual_machine" "ddc1" {
   }
 }
 
+# DDC1 virtual machine extension - Install DDC Prerequisites
+resource "azurerm_virtual_machine_extension" "ddc1-vm-extension" {
+  depends_on=[azurerm_windows_virtual_machine.ddc1-vm]
+
+  name                 = "ddc1-vm-active-directory"
+  virtual_machine_id   = azurerm_windows_virtual_machine.ddc1.id
+  publisher            = "Microsoft.Compute"
+  type                 = "CustomScriptExtension"
+  type_handler_version = "1.9"  
+  settings = <<SETTINGS
+  {
+    "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -Command Install-WindowsFeature NET-Framework-45-Core,GPMC,RSAT-ADDS-Tools,RDS-Licensing-UI,WAS,Telnet-Client"
+  }
+  SETTINGS
+
+  tags = { 
+    application = var.app_name
+    environment = var.environment
+  }
+}
 resource "azurerm_dev_test_global_vm_shutdown_schedule" "ddc01-shutdown" {
   virtual_machine_id          = azurerm_windows_virtual_machine.ddc1.id
   location                    = azurerm_resource_group.terraform-resource-group.location
