@@ -44,7 +44,7 @@ resource "azurerm_windows_virtual_machine" "sf1" {
   }
 }
 
-resource "azurerm_dev_test_global_vm_shutdown_schedule" "ddc01-shutdown" {
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "sf1-shutdown" {
   virtual_machine_id          = azurerm_windows_virtual_machine.sf1.id
   location                    = azurerm_resource_group.terraform-resource-group.location
   enabled                     = true
