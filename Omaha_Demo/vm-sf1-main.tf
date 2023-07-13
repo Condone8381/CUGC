@@ -38,7 +38,8 @@ resource "azurerm_windows_virtual_machine" "sf1" {
     sku       = "2022-datacenter-azure-edition"
     version   = "latest"
   }
-
+  enable_automatic_updates = true
+  provision_vm_agent       = true
 
   boot_diagnostics {
     storage_account_uri = azurerm_storage_account.my_jumpbox_storage_account.primary_blob_endpoint
