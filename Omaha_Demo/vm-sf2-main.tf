@@ -20,6 +20,7 @@ resource "azurerm_windows_virtual_machine" "sf2" {
   admin_password        = "CUGCDemo123!"
   location              = var.location
   resource_group_name   = azurerm_resource_group.terraform-resource-group.name
+  availability_set_id = azurerm_availability_set.storefront-availability-set.id
   network_interface_ids = [
     azurerm_network_interface.terraform-sf2-server-interface.id,
   ]
@@ -44,6 +45,26 @@ resource "azurerm_windows_virtual_machine" "sf2" {
   }
 }
 
+# SF2 virtual machine extension - Install StoreFront Prerequisites
+resource "azurerm_virtual_machine_extension" "sf2-vm-extension" {
+  depends_on=[azurerm_windows_virtual_machine.sf2]
+
+  name                 = "ddc1-vm-active-directory"
+  virtual_machine_id   = azurerm_windows_virtual_machine.sf2.id
+  publisher            = "Microsoft.Compute"
+  type                 = "CustomScriptExtension"
+  type_handler_version = "1.9"  
+  settings = <<SETTINGS
+  {
+    "commandToExecute": "powershell -ExecutionPolicy Unrestricted Install-WindowsFeature -Name Web-Server -IncludeAllSubFeature -IncludeManagementTools"
+  }
+  SETTINGS
+
+  tags = { 
+    application = var.app_name
+    environment = var.environment
+  }
+}
 resource "azurerm_dev_test_global_vm_shutdown_schedule" "sf2-shutdown" {
   virtual_machine_id          = azurerm_windows_virtual_machine.sf2.id
   location                    = azurerm_resource_group.terraform-resource-group.location
