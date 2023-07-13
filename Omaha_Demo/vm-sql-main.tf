@@ -3,12 +3,12 @@ resource "azurerm_network_interface" "terraform-sql-server-interface" {
   name                = "terraform-sql-server-interface"
   location            = var.location
   resource_group_name = azurerm_resource_group.terraform-resource-group.name
+  dns_servers             = local.dns_servers
 
   ip_configuration {
     name                          = "server"
     subnet_id                     = azurerm_subnet.terraform-server-subnet.id
     private_ip_address_allocation = "Dynamic"
-    dns_servers             = local.dns_servers
   }
 
   depends_on = [azurerm_subnet_network_security_group_association.server-subnet-association]
