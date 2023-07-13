@@ -44,7 +44,27 @@ resource "azurerm_windows_virtual_machine" "ddc2" {
   }
 }
 
-resource "azurerm_dev_test_global_vm_shutdown_schedule" "ddc02-shutdown" {
+# DDC2 virtual machine extension - Install DDC Prerequisites
+resource "azurerm_virtual_machine_extension" "ddc2-vm-extension" {
+  depends_on=[azurerm_windows_virtual_machine.ddc2]
+
+  name                 = "ddc2-vm-delivery-controller"
+  virtual_machine_id   = azurerm_windows_virtual_machine.ddc2.id
+  publisher            = "Microsoft.Compute"
+  type                 = "CustomScriptExtension"
+  type_handler_version = "1.9"  
+  settings = <<SETTINGS
+  {
+    "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -Command Install-WindowsFeature NET-Framework-45-Core,GPMC,RSAT-ADDS-Tools,RDS-Licensing-UI,WAS,Telnet-Client"
+  }
+  SETTINGS
+
+  tags = { 
+    application = var.app_name
+    environment = var.environment
+  }
+}
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "ddc2-shutdown" {
   virtual_machine_id          = azurerm_windows_virtual_machine.ddc2.id
   location                    = azurerm_resource_group.terraform-resource-group.location
   enabled                     = true
