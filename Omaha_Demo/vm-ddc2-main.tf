@@ -44,7 +44,7 @@ resource "azurerm_windows_virtual_machine" "ddc2" {
   }
 }
 
-resource "azurerm_dev_test_global_vm_shutdown_schedule" "ddc01-shutdown" {
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "ddc02-shutdown" {
   virtual_machine_id          = azurerm_windows_virtual_machine.ddc2.id
   location                    = azurerm_resource_group.terraform-resource-group.location
   enabled                     = true
