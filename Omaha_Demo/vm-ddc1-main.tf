@@ -30,7 +30,7 @@ resource "azurerm_windows_virtual_machine" "ddc1" {
   size                  = "Standard_DS2_v2"
 
   os_disk {
-    name                 = "myOsDisk"
+    name                 = "ddc1OsDisk"
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
   }
