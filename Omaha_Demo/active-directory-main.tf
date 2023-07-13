@@ -4,8 +4,8 @@
 
 # Locals
 locals {
-  dns_servers = "10.0.1.6 10.0.1.7"
-  dc_servers = "10.0.1.6 10.0.1.7"
+  dns_servers = [ var.ad_dc1_ip_address, var.ad_dc2_ip_address ]
+  dc_servers = [ var.ad_dc1_ip_address, var.ad_dc2_ip_address ]
 }
 
 # Create an availability set for domain controllers
