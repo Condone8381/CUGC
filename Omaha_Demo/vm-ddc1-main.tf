@@ -48,25 +48,6 @@ resource "azurerm_windows_virtual_machine" "ddc1" {
   }
 }
 
-# Install IIS web server to the virtual machine
-resource "azurerm_virtual_machine_extension" "ddc1_server_install" {
-  name                       = "jumpbox-wsi"
-  virtual_machine_id         = azurerm_windows_virtual_machine.ddc1.id
-  publisher                  = "Microsoft.Compute"
-  type                       = "CustomScriptExtension"
-  type_handler_version       = "1.8"
-  auto_upgrade_minor_version = true
-
-  settings = <<SETTINGS
-    {
-      "commandToExecute": "powershell -ExecutionPolicy Unrestricted Install-WindowsFeature -Name NET-Framework-45-Core -IncludeAllSubFeature -IncludeManagementTools"
-      "commandToExecute": "powershell -ExecutionPolicy Unrestricted Install-WindowsFeature -Name GPMC -IncludeAllSubFeature -IncludeManagementTools"
-      "commandToExecute": "powershell -ExecutionPolicy Unrestricted Install-WindowsFeature -Name RSAT-ADDS-Tools -IncludeAllSubFeature -IncludeManagementTools"
-      "commandToExecute": "powershell -ExecutionPolicy Unrestricted Install-WindowsFeature -Name RDS-Licensing-UI -IncludeAllSubFeature -IncludeManagementTools"
-      "commandToExecute": "powershell -ExecutionPolicy Unrestricted Install-WindowsFeature -Name WAS -IncludeAllSubFeature -IncludeManagementTools"
-    }
-  SETTINGS
-}
 resource "azurerm_dev_test_global_vm_shutdown_schedule" "ddc01-shutdown" {
   virtual_machine_id          = azurerm_windows_virtual_machine.ddc1.id
   location                    = azurerm_resource_group.terraform-resource-group.location
