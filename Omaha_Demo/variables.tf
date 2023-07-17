@@ -56,7 +56,7 @@ variable "controlling_subnet" {
 
 variable "adc_vm_size" {
   description = "Size for the ADC machine. Must allow for 3 NICs."
-  default     = "Standard_DS4_v2"
+  default     = "Standard_DS3_v2"
 }
 variable "prefix" {
   type        = string
