@@ -46,3 +46,6 @@ plan
 # Temp directory
 temp
 ha_availability_set/
+
+# MacOS Finder File
+.DS_Store
