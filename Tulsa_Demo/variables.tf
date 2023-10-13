@@ -8,7 +8,7 @@ variable "location" {
 }
 
 variable "server_subnet_id" {
-  description = "Server subent id. This where the web server interface will be created."
+  description = "Server subnet id. This where the web server interface will be created."
 }
 
 variable "management_subnet_id" {
