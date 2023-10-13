@@ -1,6 +1,6 @@
 variable "resource_group_name" {
   description = "Name for the existing resource group ADC is deployed in."
-  default     = "cugc-demos-louisville"
+  default     = "cugc-demos-tulsa"
 }
 
 variable "location" {
