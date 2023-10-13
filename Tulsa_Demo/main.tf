@@ -13,7 +13,11 @@ resource "azurerm_availability_set" "terraform-availability-set" {
   platform_fault_domain_count  = 2
 
 }
-
+resource "azurerm_marketplace_agreement" "netscaler200platinum" {
+  publisher = "citrix"
+  offer     = "netscalervpx-141"
+  plan      = "hourly"
+}
 resource "azurerm_virtual_network" "terraform-virtual-network" {
   name                = "terraform-virtual-network"
   location            = var.location
