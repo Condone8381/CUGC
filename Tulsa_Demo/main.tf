@@ -136,7 +136,73 @@ resource "azurerm_network_security_rule" "terraform-server-deny-all-outbound" {
   resource_group_name         = azurerm_resource_group.terraform-resource-group.name
   network_security_group_name = azurerm_network_security_group.terraform-server-subnet-security-group.name
 }
- resource "azurerm_public_ip" "terraform-adc-management-public-ip" {
+
+resource "azurerm_public_ip" "terraform-ubuntu-public-ip" {
+  name                = "terraform-ubuntu-public-ip"
+  resource_group_name = azurerm_resource_group.terraform-resource-group.name
+  location            = var.location
+  allocation_method   = "Static"
+}
+
+resource "azurerm_network_interface" "terraform-ubuntu-management-interface" {
+  name                = "terraform-ubuntu-management-interface"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.terraform-resource-group.name
+
+  ip_configuration {
+    name                          = "management"
+    subnet_id                     = azurerm_subnet.terraform-management-subnet.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.terraform-ubuntu-public-ip.id
+  }
+
+  depends_on = [azurerm_subnet_network_security_group_association.management-subnet-association]
+}
+
+resource "azurerm_network_interface" "terraform-ubuntu-server-interface" {
+  name                = "terraform-ubuntu-server-interface"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.terraform-resource-group.name
+
+  ip_configuration {
+    name                          = "management"
+    subnet_id                     = azurerm_subnet.terraform-server-subnet.id
+    private_ip_address_allocation = "Dynamic"
+    }
+
+  depends_on = [azurerm_subnet_network_security_group_association.server-subnet-association]
+}
+# ubuntu bastion host deployment
+resource "azurerm_linux_virtual_machine" "terraform-ubuntu-machine" {
+  name                = "terraform-ubuntu-bastion-machine"
+  resource_group_name = azurerm_resource_group.terraform-resource-group.name
+  location            = var.location
+  size                = var.ubuntu_vm_size
+  admin_username      = var.ubuntu_admin_user
+  network_interface_ids = [
+    azurerm_network_interface.terraform-ubuntu-management-interface.id,
+    azurerm_network_interface.terraform-ubuntu-server-interface.id
+  ]
+
+  admin_ssh_key {
+    username   = var.ubuntu_admin_user
+    public_key = file(var.ssh_public_key_file)
+  }
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "18.04-LTS"
+    version   = "latest"
+  }
+}
+
+resource "azurerm_public_ip" "terraform-adc-management-public-ip" {
   name                = format("terraform-adc-management-public-ip-node-%v", count.index)
   resource_group_name = azurerm_resource_group.terraform-resource-group.name
   location            = var.location
@@ -248,15 +314,15 @@ resource "azurerm_virtual_machine" "terraform-primary-adc-machine" {
 
   storage_image_reference {
     publisher = "citrix"
-    offer     = "netscalervpx-141"
-    sku       = "netscaler200platinum"
+    offer     = "netscalervpx-131"
+    sku       = "netscalervpxexpress"
     version   = "latest"
   }
 
   plan {
-    name      = "netscaler200platinum"
+    name      = "netscalervpxexpress"
     publisher = "citrix"
-    product   = "netscalervpx-141"
+    product   = "netscalervpx-131"
   }
 
   depends_on = [
@@ -324,15 +390,15 @@ resource "azurerm_virtual_machine" "terraform-secondary-adc-machine" {
 
   storage_image_reference {
     publisher = "citrix"
-    offer     = "netscalervpx-141"
-    sku       = "netscaler200platinum"
+    offer     = "netscalervpx-131"
+    sku       = "netscalervpxexpress"
     version   = "latest"
   }
 
   plan {
-    name      = "netscaler200platinum"
+    name      = "netscalervpxexpress"
     publisher = "citrix"
-    product   = "netscalervpx-141"
+    product   = "netscalervpx-131"
   }
 
   depends_on = [
@@ -401,18 +467,18 @@ resource "azurerm_lb" "tf_lb" {
     public_ip_address_id = azurerm_public_ip.terraform-load-balancer-public-ip.id
   }
 }
-# resource "azurerm_dev_test_global_vm_shutdown_schedule" "bastion" {
-#     virtual_machine_id = azurerm_linux_virtual_machine.terraform-ubuntu-machine.id
-#     location           = azurerm_resource_group.terraform-resource-group.location
-#     enabled            = true
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "bastion" {
+    virtual_machine_id = azurerm_linux_virtual_machine.terraform-ubuntu-machine.id
+    location           = azurerm_resource_group.terraform-resource-group.location
+    enabled            = true
 
-#     daily_recurrence_time = "1730"
-#     timezone              = "Eastern Standard Time"
+    daily_recurrence_time = "1730"
+    timezone              = "Eastern Standard Time"
 
-#     notification_settings {
-#       enabled          = false
-#     }
-# }
+    notification_settings {
+      enabled          = false
+    }
+}
 resource "azurerm_dev_test_global_vm_shutdown_schedule" "node-0" {
     virtual_machine_id = azurerm_virtual_machine.terraform-primary-adc-machine.id
     location           = azurerm_resource_group.terraform-resource-group.location
