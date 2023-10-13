@@ -254,9 +254,9 @@ resource "azurerm_virtual_machine" "terraform-primary-adc-machine" {
   }
 
   plan {
-    name      = "netscalervpxexpress"
+    name      = "netscaler200platinum"
     publisher = "citrix"
-    product   = "netscalervpx-131"
+    product   = "netscalervpx-141"
   }
 
   depends_on = [
