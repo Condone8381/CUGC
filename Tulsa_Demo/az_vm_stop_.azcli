@@ -1,0 +1,5 @@
+az vm stop -g cugc-demos-tulsa --vm-name terraform-adc-machine-node-0
+az vm stop -g cugc-demos-tulsa --vm-name terraform-adc-machine-node-1
+az vm stop -g cugc-demos-tulsa --vm-name terraform-ubuntu-bastion-machine
+az vm stop -g cugc-demos-tulsa --vm-name terraform-ubuntu-web1-machine
+az vm stop -g cugc-demos-tulsa --vm-name terraform-ubuntu-web2-machine
