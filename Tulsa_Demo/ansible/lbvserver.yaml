@@ -11,10 +11,10 @@
       netscaler.adc.service:
         nsip: "{{ NETSCALER_NSIP }}"
         nitro_user: "{{ NETSCALER_NITRO_USER }}"
-        nitro_user: "{{ NETSCALER_NITRO_PASS }}"
-        nitro_user: "{{ NETSCALER_NITRO_PROTOCOL }}"
-        nitro_user: "{{ NETSCALER_VALIDATE_CERTS }}"
-        nitro_user: "{{ NETSCALER_SAVE_CONFIG }}"
+        nitro_pass: "{{ NETSCALER_NITRO_PASS }}"
+        nitro_protocol: "{{ NETSCALER_NITRO_PROTOCOL }}"
+        validate_certs: "{{ NETSCALER_VALIDATE_CERTS }}"
+        save_config: "{{ NETSCALER_SAVE_CONFIG }}"
 
         state: present
 
@@ -28,10 +28,10 @@
       netscaler.adc.service:
         nsip: "{{ NETSCALER_NSIP }}"
         nitro_user: "{{ NETSCALER_NITRO_USER }}"
-        nitro_user: "{{ NETSCALER_NITRO_PASS }}"
-        nitro_user: "{{ NETSCALER_NITRO_PROTOCOL }}"
-        nitro_user: "{{ NETSCALER_VALIDATE_CERTS }}"
-        nitro_user: "{{ NETSCALER_SAVE_CONFIG }}"
+        nitro_pass: "{{ NETSCALER_NITRO_PASS }}"
+        nitro_protocol: "{{ NETSCALER_NITRO_PROTOCOL }}"
+        validate_certs: "{{ NETSCALER_VALIDATE_CERTS }}"
+        save_config: "{{ NETSCALER_SAVE_CONFIG }}"
 
         state: present
 
@@ -45,10 +45,10 @@
       netscaler.adc.servicegroup:
         nsip: "{{ NETSCALER_NSIP }}"
         nitro_user: "{{ NETSCALER_NITRO_USER }}"
-        nitro_user: "{{ NETSCALER_NITRO_PASS }}"
-        nitro_user: "{{ NETSCALER_NITRO_PROTOCOL }}"
-        nitro_user: "{{ NETSCALER_VALIDATE_CERTS }}"
-        nitro_user: "{{ NETSCALER_SAVE_CONFIG }}"
+        nitro_pass: "{{ NETSCALER_NITRO_PASS }}"
+        nitro_protocol: "{{ NETSCALER_NITRO_PROTOCOL }}"
+        validate_certs: "{{ NETSCALER_VALIDATE_CERTS }}"
+        save_config: "{{ NETSCALER_SAVE_CONFIG }}"
 
         state: present
 
@@ -60,10 +60,10 @@
       netscaler.adc.lbvserver:
         nsip: "{{ NETSCALER_NSIP }}"
         nitro_user: "{{ NETSCALER_NITRO_USER }}"
-        nitro_user: "{{ NETSCALER_NITRO_PASS }}"
-        nitro_user: "{{ NETSCALER_NITRO_PROTOCOL }}"
-        nitro_user: "{{ NETSCALER_VALIDATE_CERTS }}"
-        nitro_user: "{{ NETSCALER_SAVE_CONFIG }}"
+        nitro_pass: "{{ NETSCALER_NITRO_PASS }}"
+        nitro_protocol: "{{ NETSCALER_NITRO_PROTOCOL }}"
+        validate_certs: "{{ NETSCALER_VALIDATE_CERTS }}"
+        save_config: "{{ NETSCALER_SAVE_CONFIG }}"
 
         state: enabled
 
