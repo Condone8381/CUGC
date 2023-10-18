@@ -69,7 +69,7 @@
 
         name: test_lbvser
         servicetype: HTTP
-        ipv46: 4.155.48.32
+        ipv46: 0.0.0.0
         port: 80
         lbmethod: LEASTCONNECTION
 
@@ -87,3 +87,45 @@
             - name: test_lbvser
               servicename: s2
               weight: 20
+
+    - name: Sample Task | Set cs policy
+      delegate_to: localhost
+      netscaler.adc.cspolicy:
+        nsip: "{{ NETSCALER_NSIP }}"
+        nitro_user: "{{ NETSCALER_NITRO_USER }}"
+        nitro_pass: "{{ NETSCALER_NITRO_PASS }}"
+        nitro_protocol: "{{ NETSCALER_NITRO_PROTOCOL }}"
+        validate_certs: "{{ NETSCALER_VALIDATE_CERTS }}"
+        save_config: "{{ NETSCALER_SAVE_CONFIG }}"        
+
+        state: present
+
+        policyname: policy_1
+        rule: "HTTP.REQ.URL.CONTAINS(\"/test\")"
+
+    - name: Sample Task | csvserver
+      delegate_to: localhost
+      netscaler.adc.csvserver:
+        nsip: "{{ NETSCALER_NSIP }}"
+        nitro_user: "{{ NETSCALER_NITRO_USER }}"
+        nitro_pass: "{{ NETSCALER_NITRO_PASS }}"
+        nitro_protocol: "{{ NETSCALER_NITRO_PROTOCOL }}"
+        validate_certs: "{{ NETSCALER_VALIDATE_CERTS }}"
+        save_config: "{{ NETSCALER_SAVE_CONFIG }}"        
+
+        state: present
+
+        name: cs-vserver-1
+        ipv46: 4.155.48.32
+        port: 80
+        servicetype: HTTP
+
+        csvserver_cspolicy_binding:
+          mode: desired
+          binding_members:
+            - name: cs-vserver-1
+              policyname: policy_1
+              targetlbvserver: test_lbvser
+              priority: 1       
+      
+      
