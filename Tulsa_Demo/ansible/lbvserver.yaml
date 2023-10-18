@@ -69,7 +69,7 @@
 
         name: test_lbvser
         servicetype: HTTP
-        ipv46: 10.10.10.11
+        ipv46: 4.155.48.32
         port: 80
         lbmethod: LEASTCONNECTION
 
