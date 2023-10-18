@@ -13,44 +13,44 @@ resource "citrixadc_hanode" "local_node" {
 ############################ 
 # Upload SSL certificates 
 ############################# 
-resource "citrixadc_systemfile" "ns_server_cert" {
-  filename     = var.servercertfile_name
-  filelocation = "/nsconfig/ssl/"
-  filecontent  = file("${path.module}/${var.servercertfile_name}")
-}
-resource "citrixadc_systemfile" "ns_server_key" {
-  filename     = var.servekeyfile_name
-  filelocation = "/nsconfig/ssl/"
-  filecontent  = file("${path.module}/${var.servekeyfile_name}")
-}
+# resource "citrixadc_systemfile" "ns_server_cert" {
+#   filename     = var.servercertfile_name
+#   filelocation = "/nsconfig/ssl/"
+#   filecontent  = file("${path.module}/${var.servercertfile_name}")
+# }
+# resource "citrixadc_systemfile" "ns_server_key" {
+#   filename     = var.servekeyfile_name
+#   filelocation = "/nsconfig/ssl/"
+#   filecontent  = file("${path.module}/${var.servekeyfile_name}")
+# }
 
 #Intermediate certificates 
 # scp remote_mycoolcompany_com.ca-bundle nsroot@10.0.10.10:/nsconfig/ssl/ 
 # scp remote_mycoolcompany_com.ca-bundle_ic1 nsroot@10.0.10.10:/nsconfig/ssl/ 
-resource "citrixadc_systemfile" "remote_mycoolcompany_com_ca-bundle" {
-  filename     = var.intermediate_certificate1_name
-  filelocation = "/nsconfig/ssl/"
-  filecontent  = file("${path.module}/${var.intermediate_certificate1_name}")
-}
-resource "citrixadc_systemfile" "remote_mycoolcompany_com_ca-bundle_ic1" {
-  filename     = var.intermediate_certificate2_name
-  filelocation = "/nsconfig/ssl/"
-  filecontent  = file("${path.module}/${var.intermediate_certificate2_name}")
-}
+# resource "citrixadc_systemfile" "remote_mycoolcompany_com_ca-bundle" {
+#   filename     = var.intermediate_certificate1_name
+#   filelocation = "/nsconfig/ssl/"
+#   filecontent  = file("${path.module}/${var.intermediate_certificate1_name}")
+# }
+# resource "citrixadc_systemfile" "remote_mycoolcompany_com_ca-bundle_ic1" {
+#   filename     = var.intermediate_certificate2_name
+#   filelocation = "/nsconfig/ssl/"
+#   filecontent  = file("${path.module}/${var.intermediate_certificate2_name}")
+# }
 
 #Gateway certificate and key 
 # scp remote_mycoolcompany_com.crt nsroot@10.0.10.10:/nsconfig/ssl/ 
 # scp "remote.mycoolcompany.com_key3.txt" nsroot@10.0.10.10:/nsconfig/ssl/ 
-resource "citrixadc_systemfile" "remote_mycoolcompany_com_crt" {
-  filename     = var.gateway_certfile_name
-  filelocation = "/nsconfig/ssl/"
-  filecontent  = file("${path.module}/${var.gateway_certfile_name}")
-}
-resource "citrixadc_systemfile" "remote_mycoolcompany_com_key" {
-  filename     = var.gateway_keyfile_name
-  filelocation = "/nsconfig/ssl/"
-  filecontent  = file("${path.module}/${var.gateway_keyfile_name}")
-}
+# resource "citrixadc_systemfile" "remote_mycoolcompany_com_crt" {
+#   filename     = var.gateway_certfile_name
+#   filelocation = "/nsconfig/ssl/"
+#   filecontent  = file("${path.module}/${var.gateway_certfile_name}")
+# }
+# resource "citrixadc_systemfile" "remote_mycoolcompany_com_key" {
+#   filename     = var.gateway_keyfile_name
+#   filelocation = "/nsconfig/ssl/"
+#   filecontent  = file("${path.module}/${var.gateway_keyfile_name}")
+# }
 
 ############################# 
 # Base configuration 
