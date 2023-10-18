@@ -65,7 +65,7 @@
         validate_certs: "{{ NETSCALER_VALIDATE_CERTS }}"
         save_config: "{{ NETSCALER_SAVE_CONFIG }}"
 
-        state: disabled 
+        state: absent 
 
         name: test_lbvser
         servicetype: HTTP
