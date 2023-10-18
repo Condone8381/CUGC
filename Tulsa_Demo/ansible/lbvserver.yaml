@@ -74,12 +74,12 @@
         lbmethod: LEASTCONNECTION
 
         lbvserver_servicegroup_binding:
-          # mode: desired # bind | unbind | desired
+          mode: bind
           binding_members:
             - name: test_lbvser
               servicename: sg1
         lbvserver_service_binding:
-          # mode: desired # bind | unbind | desired
+          mode: bind
           binding_members:
             - name: test_lbvser
               servicename: s1
