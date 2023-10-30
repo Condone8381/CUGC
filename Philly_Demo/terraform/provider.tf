@@ -6,7 +6,7 @@ terraform {
   }
 }
 provider "citrixadc" {
-  endpoint = "http://4.155.48.40"
+  endpoint = "http://4.154.110.157"
   username = "nsroot"
   password = "CUGCDemo123!"
 }
