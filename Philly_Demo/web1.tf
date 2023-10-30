@@ -37,15 +37,7 @@ resource "azurerm_linux_virtual_machine" "terraform-ubuntu-web1-machine" {
     sku       = "18.04-LTS"
     version   = "latest"
   }
-  provisioner "remote-exec" {
-    inline = [
-        "sudo yum -y install httpd && sudo systemctl start httpd",
-        "echo '<h1><center>This is Web Server One</center></h1>' > index.html",
-        "echo '<h1><center>Rich Faulkner</center></h1> >> index.html",
-        "sudo mv index.html /var/www/html/"
-    ]
-    
-  }
+  
 }
 resource "azurerm_dev_test_global_vm_shutdown_schedule" "web1" {
     virtual_machine_id = azurerm_linux_virtual_machine.terraform-ubuntu-web1-machine.id
