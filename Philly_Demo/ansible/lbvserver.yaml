@@ -1,0 +1,90 @@
+---
+
+- name: Simple LBVserver playbook
+  hosts: demo_netscalers
+
+  gather_facts: false
+
+  tasks:
+    - name: Sample Task | service
+      delegate_to: localhost
+      netscaler.adc.service:
+        nsip: "{{ NETSCALER_NSIP }}"
+        nitro_user: "{{ NETSCALER_NITRO_USER }}"
+        nitro_pass: "{{ NETSCALER_NITRO_PASS }}"
+        nitro_protocol: "{{ NETSCALER_NITRO_PROTOCOL }}"
+        validate_certs: "{{ NETSCALER_VALIDATE_CERTS }}"
+        save_config: "{{ NETSCALER_SAVE_CONFIG }}"
+
+        state: present
+
+        name: s1
+        ipaddress: 10.0.1.8
+        servicetype: HTTP
+        port: 80
+
+    - name: Sample Task | service
+      delegate_to: localhost
+      netscaler.adc.service:
+        nsip: "{{ NETSCALER_NSIP }}"
+        nitro_user: "{{ NETSCALER_NITRO_USER }}"
+        nitro_pass: "{{ NETSCALER_NITRO_PASS }}"
+        nitro_protocol: "{{ NETSCALER_NITRO_PROTOCOL }}"
+        validate_certs: "{{ NETSCALER_VALIDATE_CERTS }}"
+        save_config: "{{ NETSCALER_SAVE_CONFIG }}"
+
+        state: present
+
+        name: s2
+        ipaddress: 10.0.1.7
+        servicetype: HTTP
+        port: 80
+
+    - name: Sample Task | servicegroup
+      delegate_to: localhost
+      netscaler.adc.servicegroup:
+        nsip: "{{ NETSCALER_NSIP }}"
+        nitro_user: "{{ NETSCALER_NITRO_USER }}"
+        nitro_pass: "{{ NETSCALER_NITRO_PASS }}"
+        nitro_protocol: "{{ NETSCALER_NITRO_PROTOCOL }}"
+        validate_certs: "{{ NETSCALER_VALIDATE_CERTS }}"
+        save_config: "{{ NETSCALER_SAVE_CONFIG }}"
+
+        state: present
+
+        servicegroupname: sg1
+        servicetype: HTTP
+
+    - name: Sample Task | lbvserver with bindings
+      delegate_to: localhost
+      netscaler.adc.lbvserver:
+        nsip: "{{ NETSCALER_NSIP }}"
+        nitro_user: "{{ NETSCALER_NITRO_USER }}"
+        nitro_pass: "{{ NETSCALER_NITRO_PASS }}"
+        nitro_protocol: "{{ NETSCALER_NITRO_PROTOCOL }}"
+        validate_certs: "{{ NETSCALER_VALIDATE_CERTS }}"
+        save_config: "{{ NETSCALER_SAVE_CONFIG }}"
+
+        state: enabled
+
+        name: test_lbvser
+        servicetype: HTTP
+        ipv46: 4.155.48.32
+        port: 80
+        lbmethod: LEASTCONNECTION
+
+        lbvserver_servicegroup_binding:
+          mode: bind
+          binding_members:
+            - name: test_lbvser
+              servicename: sg1
+        lbvserver_service_binding:
+          mode: bind
+          binding_members:
+            - name: test_lbvser
+              servicename: s1
+              weight: 16
+            - name: test_lbvser
+              servicename: s2
+              weight: 20
+
