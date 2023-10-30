@@ -1,6 +1,6 @@
 variable "resource_group_name" {
   description = "Name for the resource group that will contain all created resources"
-  default     = "cugc-demos-tulsa"
+  default     = "cugc-demos-philly"
 }
 
 variable "location" {
