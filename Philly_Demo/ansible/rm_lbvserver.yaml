@@ -19,7 +19,7 @@
         state: absent
 
         name: s1
-        ipaddress: 10.0.1.8
+        ipaddress: 10.0.1.5
         servicetype: HTTP
         port: 80
 
@@ -36,7 +36,7 @@
         state: absent
 
         name: s2
-        ipaddress: 10.0.1.7
+        ipaddress: 10.0.1.8
         servicetype: HTTP
         port: 80
 
@@ -69,7 +69,7 @@
 
         name: test_lbvser
         servicetype: HTTP
-        ipv46: 4.155.48.32
+        ipv46: 20.98.85.137
         port: 80
         lbmethod: LEASTCONNECTION
 
