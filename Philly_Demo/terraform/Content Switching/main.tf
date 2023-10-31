@@ -5,7 +5,7 @@ resource "citrixadc_nsfeature" "tf_nsfeature" {
 }
 
 resource "citrixadc_nsip" "snip" {
-  ipaddress = "192.168.3.10"
+  ipaddress = "10.0.1.6"
   type      = "SNIP"
   netmask   = "255.255.255.0"
 }
