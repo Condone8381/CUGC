@@ -38,3 +38,8 @@ resource "citrixadc_service" "web-server-green" {
   ip          = var.service2_ip
   servicetype = var.service2_servicetype
 }
+
+resource "citrixadc_lbvserver_service_binding" "lb_binding1" {
+  name        = citrixadc_lbvserver.tf_lbvserver1.name
+  servicename = citrixadc_service.web-server-red.name
+}
