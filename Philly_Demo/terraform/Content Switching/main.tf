@@ -39,7 +39,7 @@ resource "citrixadc_service" "web-server-green" {
   servicetype = var.service2_servicetype
 }
 
-resource "citrixadc_lbvserver_service_binding" "lb_binding1" {
+resource "citrixadc_lbvserver_service_binding" "lb_binding2" {
   name        = citrixadc_lbvserver.tf_lbvserver2.name
   servicename = citrixadc_service.web-server-red.name
 }
