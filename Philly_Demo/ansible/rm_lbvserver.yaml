@@ -93,6 +93,19 @@
   hosts: demo_netscalers
   gather_facts: false
   tasks:
+    - name: Bind Application Firewall Policy to LB Virtual Server
+      delegate_to: localhost
+      netscaler.adc.lbvserver_appfwpolicy_binding:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: absent
+
+        name: lb-green-server
+        policyname: block_log_sql_injection_appfwpolicy
+        priority: 100
 
     - name: Create Application Firewall Profile
       delegate_to: localhost
@@ -129,20 +142,6 @@
         rule: "HTTP.REQ.URL.STARTSWITH(\"/green\")&&HTTP.REQ.URL.CONTAINS(\"aspx\")"
         profilename: block_log_sql_injection_appfwprofile
 
-    - name: Bind Application Firewall Policy to LB Virtual Server
-      delegate_to: localhost
-      netscaler.adc.lbvserver_appfwpolicy_binding:
-        nsip: "{{ nsip }}"
-        nitro_user: "{{ nitro_user }}"
-        nitro_pass: "{{ new_password }}"
-        nitro_protocol: "{{ nitro_protocol }}"
-        validate_certs: "{{ validate_certs }}"
-        state: absent
-
-        name: lb-green-server
-        policyname: block_log_sql_injection_appfwpolicy
-        priority: 100
-
 - name: Demo | NetScaler | Basic Content Switching Configuration
   hosts: demo_netscalers
   gather_facts: false
@@ -157,7 +156,7 @@
         nitro_pass: "{{ new_password }}"
         nitro_protocol: "{{ nitro_protocol }}"
         validate_certs: "{{ validate_certs }}"
-        state: absent
+        state: present
 
         ipaddress: "{{ snip }}"
         netmask: 255.255.255.0
@@ -177,10 +176,10 @@
           - CS
           - LB
 
-    # add service svc-red-server "{{ server1_ip }}" HTTP 80
-    - name: Demo | service-red-server
+    # add cs vserver demo-csvserver HTTP "{{ vip_ip }}" 80
+    - name: Demo | demo-csvserver
       delegate_to: localhost
-      netscaler.adc.service:
+      netscaler.adc.csvserver:
         nsip: "{{ nsip }}"
         nitro_user: "{{ nitro_user }}"
         nitro_pass: "{{ new_password }}"
@@ -188,27 +187,22 @@
         validate_certs: "{{ validate_certs }}"
         state: absent
 
-        name: svc-red-server
-        ipaddress: "{{ server1_ip }}"
+        name: demo-csvserver
         servicetype: HTTP
+        ipv46: "{{ vip_ip }}"
         port: 80
 
-    # add service svc-green-server "{{ server2_ip }}" HTTP 80
-    - name: Demo | service-green-server
-      delegate_to: localhost
-      netscaler.adc.service:
-        nsip: "{{ nsip }}"
-        nitro_user: "{{ nitro_user }}"
-        nitro_pass: "{{ new_password }}"
-        nitro_protocol: "{{ nitro_protocol }}"
-        validate_certs: "{{ validate_certs }}"
-        state: absent
-
-        name: svc-green-server
-        ipaddress: "{{ server2_ip }}"
-        servicetype: HTTP
-        port: 80
-
+        # bind cs vserver demo-csvserver -policyName cspolicy-green-server -priority 110
+        csvserver_cspolicy_binding:
+          mode: desired # desired | bind | unbind
+          binding_members:
+            - name: demo-csvserver
+              policyname: cspolicy-red-server
+              priority: 100
+            - name: demo-csvserver
+              policyname: cspolicy-green-server
+              priority: 110
+              
     # add lb vserver lb-red-server HTTP
     - name: Demo | lbvserver-red-server
       delegate_to: localhost
@@ -309,10 +303,10 @@
         rule: "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/green\")"
         action: csaction-green-server
 
-    # add cs vserver demo-csvserver HTTP "{{ vip_ip }}" 80
-    - name: Demo | demo-csvserver
+    # add service svc-red-server "{{ server1_ip }}" HTTP 80
+    - name: Demo | service-red-server
       delegate_to: localhost
-      netscaler.adc.csvserver:
+      netscaler.adc.service:
         nsip: "{{ nsip }}"
         nitro_user: "{{ nitro_user }}"
         nitro_pass: "{{ new_password }}"
@@ -320,18 +314,24 @@
         validate_certs: "{{ validate_certs }}"
         state: absent
 
-        name: demo-csvserver
+        name: svc-red-server
+        ipaddress: "{{ server1_ip }}"
         servicetype: HTTP
-        ipv46: "{{ vip_ip }}"
         port: 80
 
-        # bind cs vserver demo-csvserver -policyName cspolicy-green-server -priority 110
-        csvserver_cspolicy_binding:
-          mode: desired # desired | bind | unbind
-          binding_members:
-            - name: demo-csvserver
-              policyname: cspolicy-red-server
-              priority: 100
-            - name: demo-csvserver
-              policyname: cspolicy-green-server
-              priority: 110
+    # add service svc-green-server "{{ server2_ip }}" HTTP 80
+    - name: Demo | service-green-server
+      delegate_to: localhost
+      netscaler.adc.service:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: absent
+
+        name: svc-green-server
+        ipaddress: "{{ server2_ip }}"
+        servicetype: HTTP
+        port: 80
+
