@@ -40,6 +40,6 @@ resource "citrixadc_service" "web-server-green" {
 }
 
 resource "citrixadc_lbvserver_service_binding" "lb_binding1" {
-  name        = citrixadc_lbvserver.tf_lbvserver1.name
+  name        = citrixadc_lbvserver.tf_lbvserver2.name
   servicename = citrixadc_service.web-server-red.name
 }
