@@ -78,3 +78,15 @@ variable "csvserver_port" {
   description = "CS vserver Port"
 }
 
+variable "appfwpolicy1_name" {
+  type        = string
+  description = "Appfw Policy1 name"
+}
+variable "appfwpolicy1_rule" {
+  type        = string
+  description = "Appfw Policy1 rule"
+}
+variable "appfwprofile1_name" {
+  type        = string
+  description = "Appfw Profile1 rule"
+}

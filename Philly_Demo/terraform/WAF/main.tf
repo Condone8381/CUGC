@@ -83,3 +83,196 @@ resource "citrixadc_csvserver_cspolicy_binding" "tf_csvscspolbind_echoserver2" {
   priority   = 110
 }
 
+resource "citrixadc_appfwprofile" "tf_appfwprofile1" {
+  name           = "tf_appfwprofile1"
+  addcookieflags = "none"
+  bufferoverflowaction = [
+    "block",
+    "log",
+    "stats",
+  ]
+  canonicalizehtmlresponse = "ON"
+  checkrequestheaders      = "OFF"
+  cmdinjectionaction = [
+    "block",
+    "log",
+    "stats",
+  ]
+  contenttypeaction = [
+    "none",
+  ]
+  cookieconsistencyaction = [
+    "none",
+  ]
+  cookieencryption = "none"
+  cookiehijackingaction = [
+    "none",
+  ]
+  cookieproxying   = "none"
+  cookietransforms = "OFF"
+  creditcard = [
+    "none",
+  ]
+  creditcardaction = [
+    "none",
+  ]
+  creditcardxout = "OFF"
+  crosssitescriptingaction = [
+    "block",
+    "log",
+    "stats",
+  ]
+  crosssitescriptingcheckcompleteurls   = "OFF"
+  crosssitescriptingtransformunsafehtml = "OFF"
+  csrftagaction = [
+    "none",
+  ]
+  defaultcharset = "iso-8859-1"
+  denyurlaction = [
+    "block",
+    "log",
+    "stats",
+  ]
+  dosecurecreditcardlogging = "ON"
+  dynamiclearning = [
+    "none",
+  ]
+  enableformtagging                   = "ON"
+  errorurl                            = "/"
+  excludefileuploadfromchecks         = "OFF"
+  exemptclosureurlsfromsecuritychecks = "ON"
+  fieldconsistencyaction = [
+    "none",
+  ]
+  fieldformataction = [
+    "block",
+    "log",
+    "stats",
+  ]
+  fileuploadtypesaction = [
+    "block",
+    "log",
+    "stats",
+  ]
+  htmlerrorobject = " "
+  infercontenttypexmlpayloadaction = [
+    "none",
+  ]
+  inspectcontenttypes = [
+    "application/x-www-form-urlencoded",
+    "multipart/form-data",
+    "text/x-gwt-rpc",
+  ]
+  invalidpercenthandling = "secure_mode"
+  jsondosaction = [
+    "block",
+    "log",
+    "stats",
+  ]
+  jsonerrorobject = " "
+  jsonsqlinjectionaction = [
+    "block",
+    "log",
+    "stats",
+  ]
+  jsonsqlinjectiontype = "SQLSplCharANDKeyword"
+  jsonxssaction = [
+    "block",
+    "log",
+    "stats",
+  ]
+  logeverypolicyhit = "ON"
+  multipleheaderaction = [
+    "block",
+    "log",
+  ]
+  optimizepartialreqs      = "ON"
+  percentdecoderecursively = "OFF"
+  postbodylimitaction = [
+    "block",
+    "log",
+    "stats",
+  ]
+  refererheadercheck          = "OFF"
+  responsecontenttype         = "application/octet-stream"
+  rfcprofile                  = "APPFW_RFC_BLOCK"
+  semicolonfieldseparator     = "OFF"
+  sessionlessfieldconsistency = "OFF"
+  sessionlessurlclosure       = "OFF"
+  signatures                  = " "
+  sqlinjectionaction = [
+    "block",
+    "log",
+    "stats",
+  ]
+  sqlinjectionchecksqlwildchars     = "OFF"
+  sqlinjectionparsecomments         = "checkall"
+  sqlinjectiontransformspecialchars = "OFF"
+  sqlinjectiontype                  = "SQLSplCharANDKeyword"
+  starturlaction = [
+    "log",
+  ]
+  starturlclosure   = "OFF"
+  streaming         = "OFF"
+  striphtmlcomments = "none"
+  stripxmlcomments  = "none"
+  trace             = "OFF"
+  type = [
+    "HTML",
+    "JSON",
+    "XML",
+  ]
+  urldecoderequestcookies = "OFF"
+  usehtmlerrorobject      = "OFF"
+  verboseloglevel         = "pattern"
+  xmlattachmentaction = [
+    "block",
+    "log",
+    "stats",
+  ]
+  xmldosaction = [
+    "block",
+    "log",
+    "stats",
+  ]
+  xmlerrorobject = " "
+  xmlformataction = [
+    "block",
+    "log",
+    "stats",
+  ]
+  xmlsoapfaultaction = [
+    "block",
+    "log",
+    "stats",
+  ]
+  xmlsqlinjectionaction = [
+    "block",
+    "log",
+    "stats",
+  ]
+  xmlsqlinjectionchecksqlwildchars = "OFF"
+  xmlsqlinjectionparsecomments     = "checkall"
+  xmlsqlinjectiontype              = "SQLSplCharANDKeyword"
+  xmlvalidationaction = [
+    "none",
+  ]
+  xmlwsiaction = [
+    "none",
+  ]
+  xmlxssaction = [
+    "none",
+  ]
+}
+resource "citrixadc_appfwpolicy" "tf_appfwpolicy1" {
+  name        = var.appfwpolicy1_name
+  profilename = citrixadc_appfwprofile.tf_appfwprofile1.name
+  rule        = var.appfwpolicy1_rule
+}
+
+resource "citrixadc_lbvserver_appfwpolicy_binding" "tf_bind1" {
+  name                   = citrixadc_lbvserver.tf_lbvserver1.name
+  policyname             = citrixadc_appfwpolicy.tf_appfwpolicy1.name
+  priority               = 100
+  gotopriorityexpression = "END"
+}
