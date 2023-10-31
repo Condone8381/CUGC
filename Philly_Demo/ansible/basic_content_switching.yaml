@@ -1,0 +1,194 @@
+
+- name: Demo | NetScaler | Basic Content Switching Configuration
+  hosts: demo_netscalers
+  gather_facts: false
+  tasks:
+
+    # add ns ip "{{ snip }}" 255.255.255.0 -type SNIP
+    - name: Demo | snip
+      delegate_to: localhost
+      netscaler.adc.nsip:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: present
+
+        ipaddress: "{{ snip }}"
+        netmask: 255.255.255.0
+        type: SNIP
+
+    # enable feature LB CS
+    - name: Sample Task | nsfeature
+      delegate_to: localhost
+      netscaler.adc.nsfeature:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: enabled
+        feature:
+          - CS
+          - LB
+
+    # add service svc-red-server "{{ server1_ip }}" HTTP 80
+    - name: Demo | service-red-server
+      delegate_to: localhost
+      netscaler.adc.service:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: present
+
+        name: svc-red-server
+        ipaddress: "{{ server1_ip }}"
+        servicetype: HTTP
+        port: 80
+
+    # add service svc-green-server "{{ server2_ip }}" HTTP 80
+    - name: Demo | service-green-server
+      delegate_to: localhost
+      netscaler.adc.service:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: present
+
+        name: svc-green-server
+        ipaddress: "{{ server2_ip }}"
+        servicetype: HTTP
+        port: 80
+
+    # add lb vserver lb-red-server HTTP
+    - name: Demo | lbvserver-red-server
+      delegate_to: localhost
+      netscaler.adc.lbvserver:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: present
+
+        name: lb-red-server
+        servicetype: HTTP
+
+        # bind lb vserver lb-red-server svc-red-server
+        lbvserver_service_binding:
+          mode: desired # desired | bind | unbind
+          binding_members:
+            - name: lb-red-server
+              servicename: svc-red-server
+
+    # add lb vserver lb-green-server HTTP
+    - name: Demo | lbvserver-green-server
+      delegate_to: localhost
+      netscaler.adc.lbvserver:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: present
+
+        name: lb-green-server
+        servicetype: HTTP
+
+        # bind lb vserver lb-green-server svc-green-server
+        lbvserver_service_binding:
+          mode: desired # desired | bind | unbind
+          binding_members:
+            - name: lb-green-server
+              servicename: svc-green-server
+
+    # add cs action csaction-red-server -targetLBVserver lb-red-server
+    - name: Demo | csaction-red-server
+      delegate_to: localhost
+      netscaler.adc.csaction:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: present
+
+        name: csaction-red-server
+        targetlbvserver: lb-red-server
+
+    # add cs action csaction-green-server -targetLBVserver lb-green-server
+    - name: Demo | csaction-green-server
+      delegate_to: localhost
+      netscaler.adc.csaction:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: present
+
+        name: csaction-green-server
+        targetlbvserver: lb-green-server
+
+    # add cs policy cspolicy-red-server -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/red\")" -action csaction-red-server
+    - name: Demo | cspolicy-red-server
+      delegate_to: localhost
+      netscaler.adc.cspolicy:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: present
+
+        policyname: cspolicy-red-server
+        rule: "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/red\")"
+        action: csaction-red-server
+
+    # add cs policy cspolicy-green-server -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/green\")" -action csaction-green-server
+    - name: Demo | cspolicy-green-server
+      delegate_to: localhost
+      netscaler.adc.cspolicy:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: present
+
+        policyname: cspolicy-green-server
+        rule: "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/green\")"
+        action: csaction-green-server
+
+    # add cs vserver demo-csvserver HTTP "{{ vip_ip }}" 80
+    - name: Demo | demo-csvserver
+      delegate_to: localhost
+      netscaler.adc.csvserver:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: present
+
+        name: demo-csvserver
+        servicetype: HTTP
+        ipv46: "{{ vip_ip }}"
+        port: 80
+
+        # bind cs vserver demo-csvserver -policyName cspolicy-green-server -priority 110
+        csvserver_cspolicy_binding:
+          mode: desired # desired | bind | unbind
+          binding_members:
+            - name: demo-csvserver
+              policyname: cspolicy-red-server
+              priority: 100
+            - name: demo-csvserver
+              policyname: cspolicy-green-server
+              priority: 110
+
