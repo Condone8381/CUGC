@@ -149,47 +149,6 @@
               policyname: cspolicy-green-server
               priority: 110
               
-    # add lb vserver lb-red-server HTTP
-    - name: Demo | lbvserver-red-server
-      delegate_to: localhost
-      netscaler.adc.lbvserver:
-        nsip: "{{ nsip }}"
-        nitro_user: "{{ nitro_user }}"
-        nitro_pass: "{{ new_password }}"
-        nitro_protocol: "{{ nitro_protocol }}"
-        validate_certs: "{{ validate_certs }}"
-        state: absent
-
-        name: lb-red-server
-        servicetype: HTTP
-
-        # bind lb vserver lb-red-server svc-red-server
-        lbvserver_service_binding:
-          mode: desired # desired | bind | unbind
-          binding_members:
-            - name: lb-red-server
-              servicename: svc-red-server
-
-    # add lb vserver lb-green-server HTTP
-    - name: Demo | lbvserver-green-server
-      delegate_to: localhost
-      netscaler.adc.lbvserver:
-        nsip: "{{ nsip }}"
-        nitro_user: "{{ nitro_user }}"
-        nitro_pass: "{{ new_password }}"
-        nitro_protocol: "{{ nitro_protocol }}"
-        validate_certs: "{{ validate_certs }}"
-        state: absent
-
-        name: lb-green-server
-        servicetype: HTTP
-
-        # bind lb vserver lb-green-server svc-green-server
-        lbvserver_service_binding:
-          mode: desired # desired | bind | unbind
-          binding_members:
-            - name: lb-green-server
-              servicename: svc-green-server
 
     # add cs action csaction-red-server -targetLBVserver lb-red-server
     - name: Demo | csaction-red-server
@@ -280,6 +239,48 @@
         ipaddress: "{{ server2_ip }}"
         servicetype: HTTP
         port: 80
+        
+    # add lb vserver lb-red-server HTTP
+    - name: Demo | lbvserver-red-server
+      delegate_to: localhost
+      netscaler.adc.lbvserver:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: absent
+
+        name: lb-red-server
+        servicetype: HTTP
+
+        # bind lb vserver lb-red-server svc-red-server
+        lbvserver_service_binding:
+          mode: desired # desired | bind | unbind
+          binding_members:
+            - name: lb-red-server
+              servicename: svc-red-server
+
+    # add lb vserver lb-green-server HTTP
+    - name: Demo | lbvserver-green-server
+      delegate_to: localhost
+      netscaler.adc.lbvserver:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: absent
+
+        name: lb-green-server
+        servicetype: HTTP
+
+        # bind lb vserver lb-green-server svc-green-server
+        lbvserver_service_binding:
+          mode: desired # desired | bind | unbind
+          binding_members:
+            - name: lb-green-server
+              servicename: svc-green-server
 
     - name: Create Application Firewall Policy
       delegate_to: localhost
