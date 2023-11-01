@@ -88,46 +88,6 @@
               servicename: s2
               weight: 20
 
-
-- name: Configuring NetScaler to BLOCK and LOG SQL injection attacks on green-app
-  hosts: demo_netscalers
-  gather_facts: false
-  tasks:
-    - name: Bind Application Firewall Policy to LB Virtual Server
-      delegate_to: localhost
-      netscaler.adc.lbvserver_appfwpolicy_binding:
-        nsip: "{{ nsip }}"
-        nitro_user: "{{ nitro_user }}"
-        nitro_pass: "{{ new_password }}"
-        nitro_protocol: "{{ nitro_protocol }}"
-        validate_certs: "{{ validate_certs }}"
-        state: absent
-
-        name: lb-green-server
-        policyname: block_log_sql_injection_appfwpolicy
-        priority: 100
-
-    - name: Create Application Firewall Profile
-      delegate_to: localhost
-      netscaler.adc.appfwprofile:
-        nsip: "{{ nsip }}"
-        nitro_user: "{{ nitro_user }}"
-        nitro_pass: "{{ new_password }}"
-        nitro_protocol: "{{ nitro_protocol }}"
-        validate_certs: "{{ validate_certs }}"
-        state: absent
-
-        name: block_log_sql_injection_appfwprofile
-        type:
-          - HTML
-          - JSON
-          - XML
-        starturlaction:
-          - none
-        sqlinjectionaction:
-          - log
-          - block
-
 - name: Demo | NetScaler | Basic Content Switching Configuration
   hosts: demo_netscalers
   gather_facts: false
@@ -334,3 +294,42 @@
         name: block_log_sql_injection_appfwpolicy
         rule: "HTTP.REQ.URL.STARTSWITH(\"/green\")&&HTTP.REQ.URL.CONTAINS(\"aspx\")"
         profilename: block_log_sql_injection_appfwprofile
+
+- name: Configuring NetScaler to BLOCK and LOG SQL injection attacks on green-app
+  hosts: demo_netscalers
+  gather_facts: false
+  tasks:
+    - name: Bind Application Firewall Policy to LB Virtual Server
+      delegate_to: localhost
+      netscaler.adc.lbvserver_appfwpolicy_binding:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: absent
+
+        name: lb-green-server
+        policyname: block_log_sql_injection_appfwpolicy
+        priority: 100
+
+    - name: Create Application Firewall Profile
+      delegate_to: localhost
+      netscaler.adc.appfwprofile:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: absent
+
+        name: block_log_sql_injection_appfwprofile
+        type:
+          - HTML
+          - JSON
+          - XML
+        starturlaction:
+          - none
+        sqlinjectionaction:
+          - log
+          - block
