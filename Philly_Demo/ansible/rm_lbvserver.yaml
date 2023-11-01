@@ -128,20 +128,6 @@
           - log
           - block
 
-    - name: Create Application Firewall Policy
-      delegate_to: localhost
-      netscaler.adc.appfwpolicy:
-        nsip: "{{ nsip }}"
-        nitro_user: "{{ nitro_user }}"
-        nitro_pass: "{{ new_password }}"
-        nitro_protocol: "{{ nitro_protocol }}"
-        validate_certs: "{{ validate_certs }}"
-        state: absent
-
-        name: block_log_sql_injection_appfwpolicy
-        rule: "HTTP.REQ.URL.STARTSWITH(\"/green\")&&HTTP.REQ.URL.CONTAINS(\"aspx\")"
-        profilename: block_log_sql_injection_appfwprofile
-
 - name: Demo | NetScaler | Basic Content Switching Configuration
   hosts: demo_netscalers
   gather_facts: false
@@ -335,3 +321,16 @@
         servicetype: HTTP
         port: 80
 
+    - name: Create Application Firewall Policy
+      delegate_to: localhost
+      netscaler.adc.appfwpolicy:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: absent
+
+        name: block_log_sql_injection_appfwpolicy
+        rule: "HTTP.REQ.URL.STARTSWITH(\"/green\")&&HTTP.REQ.URL.CONTAINS(\"aspx\")"
+        profilename: block_log_sql_injection_appfwprofile
