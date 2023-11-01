@@ -212,7 +212,35 @@
         ipaddress: "{{ server2_ip }}"
         servicetype: HTTP
         port: 80
-        
+
+    # add cs action csaction-red-server -targetLBVserver lb-red-server
+    - name: Demo | csaction-red-server
+      delegate_to: localhost
+      netscaler.adc.csaction:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: absent
+
+        name: csaction-red-server
+        targetlbvserver: lb-red-server
+
+    # add cs action csaction-green-server -targetLBVserver lb-green-server
+    - name: Demo | csaction-green-server
+      delegate_to: localhost
+      netscaler.adc.csaction:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: absent
+
+        name: csaction-green-server
+        targetlbvserver: lb-green-server
+
     # add lb vserver lb-red-server HTTP
     - name: Demo | lbvserver-red-server
       delegate_to: localhost
