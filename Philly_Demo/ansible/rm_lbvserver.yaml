@@ -140,7 +140,7 @@
 
         # bind cs vserver demo-csvserver -policyName cspolicy-green-server -priority 110
         csvserver_cspolicy_binding:
-          mode: desired # desired | bind | unbind
+          mode: unbind # unbind | bind | unbind
           binding_members:
             - name: demo-csvserver
               policyname: cspolicy-red-server
@@ -150,33 +150,6 @@
               priority: 110
               
 
-    # add cs action csaction-red-server -targetLBVserver lb-red-server
-    - name: Demo | csaction-red-server
-      delegate_to: localhost
-      netscaler.adc.csaction:
-        nsip: "{{ nsip }}"
-        nitro_user: "{{ nitro_user }}"
-        nitro_pass: "{{ new_password }}"
-        nitro_protocol: "{{ nitro_protocol }}"
-        validate_certs: "{{ validate_certs }}"
-        state: absent
-
-        name: csaction-red-server
-        targetlbvserver: lb-red-server
-
-    # add cs action csaction-green-server -targetLBVserver lb-green-server
-    - name: Demo | csaction-green-server
-      delegate_to: localhost
-      netscaler.adc.csaction:
-        nsip: "{{ nsip }}"
-        nitro_user: "{{ nitro_user }}"
-        nitro_pass: "{{ new_password }}"
-        nitro_protocol: "{{ nitro_protocol }}"
-        validate_certs: "{{ validate_certs }}"
-        state: absent
-
-        name: csaction-green-server
-        targetlbvserver: lb-green-server
 
     # add cs policy cspolicy-red-server -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/red\")" -action csaction-red-server
     - name: Demo | cspolicy-red-server
@@ -256,7 +229,7 @@
 
         # bind lb vserver lb-red-server svc-red-server
         lbvserver_service_binding:
-          mode: desired # desired | bind | unbind
+          mode: unbind # unbind | bind | unbind
           binding_members:
             - name: lb-red-server
               servicename: svc-red-server
@@ -277,10 +250,38 @@
 
         # bind lb vserver lb-green-server svc-green-server
         lbvserver_service_binding:
-          mode: desired # desired | bind | unbind
+          mode: unbind # unbind | bind | unbind
           binding_members:
             - name: lb-green-server
               servicename: svc-green-server
+
+    # add cs action csaction-red-server -targetLBVserver lb-red-server
+    - name: Demo | csaction-red-server
+      delegate_to: localhost
+      netscaler.adc.csaction:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: absent
+
+        name: csaction-red-server
+        targetlbvserver: lb-red-server
+
+    # add cs action csaction-green-server -targetLBVserver lb-green-server
+    - name: Demo | csaction-green-server
+      delegate_to: localhost
+      netscaler.adc.csaction:
+        nsip: "{{ nsip }}"
+        nitro_user: "{{ nitro_user }}"
+        nitro_pass: "{{ new_password }}"
+        nitro_protocol: "{{ nitro_protocol }}"
+        validate_certs: "{{ validate_certs }}"
+        state: absent
+
+        name: csaction-green-server
+        targetlbvserver: lb-green-server
 
     - name: Create Application Firewall Policy
       delegate_to: localhost
