@@ -1,0 +1,11 @@
+az vm stop -g cugc-demos-philly --name terraform-adc-machine-node-0
+az vm stop -g cugc-demos-philly --name terraform-adc-machine-node-1
+az vm stop -g cugc-demos-philly --name terraform-ubuntu-bastion-machine
+az vm stop -g cugc-demos-philly --name terraform-ubuntu-web1-machine
+az vm stop -g cugc-demos-philly --name terraform-ubuntu-web2-machine
+
+az vm deallocate -g cugc-demos-philly --name terraform-adc-machine-node-0
+az vm deallocate -g cugc-demos-philly --name terraform-adc-machine-node-1
+az vm deallocate -g cugc-demos-philly --name terraform-ubuntu-bastion-machine
+az vm deallocate -g cugc-demos-philly --name terraform-ubuntu-web1-machine
+az vm deallocate -g cugc-demos-philly --name terraform-ubuntu-web2-machine
