@@ -1,0 +1,13 @@
+# This text file gives the variables that are needed for the terraform tfvars file
+# The Azure resource location for the environment to be created
+location = "westus"
+#This is the virtual network configuration, and can be used as is, or modified to match the networking for your lab.
+virtual_network_address_space = "10.0.0.0/16"
+management_subnet_address_prefix = "10.0.0.0/24"
+client_subnet_address_prefix = "10.0.2.0/24"
+server_subnet_address_prefix = "10.0.1.0/24"
+# Set the password for your environment here. It should not be replicated to your git repository, should you use one.
+citrixadc_rpc_node_password = "<supersecretpassword>"
+adc_admin_password = "<anothersupersecretpassword"
+# The controlling subnet is entered into the security groups permitting access to your environment. It is recommended that you only permit on address in for lab environments
+controlling_subnet = "1.2.3.4/32"
