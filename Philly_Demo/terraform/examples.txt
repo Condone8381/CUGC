@@ -1,0 +1,16 @@
+# This file is meant to give the requried variables that would be used for the "tfvars" file
+# You can modify these variables to match the environment generated, and rename the file to examples.tfvars if desired.
+vip_config = {
+  vip = "20.98.85.137"
+}
+
+backend_service_config = {
+  clttimeout   = 40
+  backend_port = 80
+}
+
+backend_services = [
+  "10.0.1.5",
+  "10.0.1.8",
+]
+

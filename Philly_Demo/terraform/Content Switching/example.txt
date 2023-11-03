@@ -1,0 +1,35 @@
+# Example Text file. Can be renamed and used for the examples.tfvars
+# update the variables to match your environment
+# Lb_Vserver1
+lbvserver1_name        = "tf_lbvserver1"
+lbvserver1_servicetype = "HTTP"
+
+# Lb_Vserver2
+lbvserver2_name        = "tf_lbvserver2"
+lbvserver2_servicetype = "HTTP"
+
+# Service 1
+service1_name        = "web-server-red"
+service1_ip          = "10.0.1.5"
+service1_port        = 80
+service1_servicetype = "HTTP"
+
+# Service 2
+service2_name        = "web-server-green"
+service2_ip          = "10.0.1.8"
+service2_port        = 80
+service2_servicetype = "HTTP"
+
+# CS Policy 1
+cspolicy1_name = "tf_policy_red"
+cspolicy1_rule  = "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/red\")"
+
+# CS Policy 2
+cspolicy2_name = "tf_policy_green"
+cspolicy2_rule  = "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/green\")"
+
+# CS Vserver
+csvserver_name        = "tf_csvserver"
+csvserver_ipv46       = "20.98.85.137"
+csvserver_port        = 80
+csvserver_servicetype = "HTTP"
